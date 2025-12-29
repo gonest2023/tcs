@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="网页版贪吃蛇游戏 - 经典游戏的现代演绎，具有精美的霓虹视觉效果">
+    <title>🐍 贪吃蛇大作战</title>
+
+    <!-- Google Fonts - Outfit 字体 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- 样式表 -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <!-- 动态背景漂浮球 -->
+    <div class="background-orbs">
+        <div class="floating-orb orb-cyan"></div>
+        <div class="floating-orb orb-fuchsia"></div>
+    </div>
+
+    <!-- 主容器 -->
+    <div class="main-container">
+
+        <!-- 登录/注册界面 -->
+        <div id="auth-screen" class="screen">
+            <div class="glass-container auth-container">
+                <h1 class="gradient-title">🐍 贪吃蛇大作战</h1>
+                <p class="subtitle">经典游戏，霓虹重生</p>
+
+                <!-- 登录表单 -->
+                <form id="login-form" class="auth-form">
+                    <div class="form-group">
+                        <label for="login-username">用户名</label>
+                        <input type="text" id="login-username" placeholder="请输入用户名" required autocomplete="username">
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">密码</label>
+                        <input type="password" id="login-password" placeholder="请输入密码" required
+                            autocomplete="current-password">
+                    </div>
+                    <button type="submit" class="neon-button">登 录</button>
+                    <button type="button" id="guest-login-btn" class="guest-button">🎮 游客模式</button>
+                    <p class="auth-switch">没有账号？<a href="#" id="show-register">立即注册</a></p>
+                </form>
+
+                <!-- 注册表单 -->
+                <form id="register-form" class="auth-form hidden">
+                    <div class="form-group">
+                        <label for="register-username">用户名</label>
+                        <input type="text" id="register-username" placeholder="请输入用户名" required autocomplete="username">
+                    </div>
+                    <div class="form-group">
+                        <label for="register-password">密码</label>
+                        <input type="password" id="register-password" placeholder="请输入密码" required
+                            autocomplete="new-password">
+                    </div>
+                    <div class="form-group">
+                        <label for="register-confirm">确认密码</label>
+                        <input type="password" id="register-confirm" placeholder="请再次输入密码" required
+                            autocomplete="new-password">
+                    </div>
+                    <button type="submit" class="neon-button">注 册</button>
+                    <p class="auth-switch">已有账号？<a href="#" id="show-login">返回登录</a></p>
+                </form>
+
+                <!-- 错误/成功提示 -->
+                <div id="auth-message" class="message hidden"></div>
+            </div>
+        </div>
+
+        <!-- 游戏主界面 -->
+        <div id="game-screen" class="screen hidden">
+            <!-- 顶部导航栏 -->
+            <header class="game-header">
+                <div class="user-info">
+                    <span class="welcome-text">欢迎, <span id="current-user">用户</span> 👋</span>
+                </div>
+                <button id="logout-btn" class="outline-button">登出</button>
+            </header>
+
+            <div class="glass-container game-container">
+                <!-- 分数显示区 -->
+                <div class="score-board">
+                    <div class="score-item">
+                        <span class="score-label">当前分数</span>
+                        <span id="current-score" class="score-value">0</span>
+                    </div>
+                    <div class="score-item">
+                        <span class="score-label">最高分数</span>
+                        <span id="high-score" class="score-value">0</span>
+                    </div>
+                </div>
+
+                <!-- 游戏画布 -->
+                <div class="canvas-wrapper">
+                    <canvas id="game-canvas" width="400" height="400"></canvas>
+                    <!-- 游戏覆盖层（开始/暂停/结束提示） -->
+                    <div id="game-overlay" class="game-overlay">
+                        <div class="overlay-content">
+                            <h2 id="overlay-title">准备开始</h2>
+                            <p id="overlay-message">按 [空格键] 或点击下方按钮开始游戏</p>
+                            <p class="control-hint">使用 ↑↓←→ 或 WASD 控制方向</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 控制按钮 -->
+                <div class="game-controls">
+                    <button id="start-btn" class="neon-button">开始游戏</button>
+                    <button id="pause-btn" class="outline-button" disabled>暂停</button>
+                </div>
+
+                <!-- 游戏记录区 -->
+                <div class="game-history">
+                    <h3 class="section-title">📊 最近游戏记录</h3>
+                    <div id="history-list" class="history-list">
+                        <p class="empty-history">暂无游戏记录</p>
+                    </div>
+                </div>
+
+                <!-- 登录记录区 -->
+                <div class="login-history">
+                    <h3 class="section-title">🕐 登录记录</h3>
+                    <div id="login-history-list" class="history-list">
+                        <p class="empty-history">暂无登录记录</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript 模块 -->
+    <script src="js/storage.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/game.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/app.js"></script>
+</body>
+
+</html>
